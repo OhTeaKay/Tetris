@@ -1,1 +1,1 @@
-asdasdasd
+zmiana 16:32
