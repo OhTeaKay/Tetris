@@ -21,20 +21,20 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const tTetromino = [
         [1,width,width+1,width+2],
-        [1,width+1,width+2,width2+1],
+        [1,width+1,width+2,width*2+1],
         [width,width+1,width+2,width*2+1],
-        [1,width,width_1,widith*2+1]
+        [1,width,width+1,width*2+1]
     ]
 
     const oTetromino = [
         [0,1,width,width+1],
         [0,1,width,width+1],
         [0,1,width,width+1],
-        [0,1,width,width+1],
+        [0,1,width,width+1]
     ]
 
     const iTetromino = [
-        [1,width,width*2+1,width*3+1],
+        [1,width+1,width*2+1,width*3+1],
         [width,width+1,width+2,width+3],
         [1,width+1,width*2+1,width*3+1],
         [width,width+1,width+2,width+3]
@@ -42,10 +42,35 @@ document.addEventListener('DOMContentLoaded', () => {
 
     const theTetrominoes = [lTetromino, zTetromino, tTetromino, oTetromino, iTetromino]
 
+    let currentPosition = 4
+    let currentRotation = 0
+
+    let random = Math.floor(Math.random()*theTetrominoes.length)
+    let current = theTetrominoes[4][0]
+
+    function draw(){
+        current.forEach(index => {
+            squares[currentPosition + index].classList.add('tetromino')
+        })
+    }
+
+    function undraw(){
+        current.forEach(index => {
+            squares[currentPosition + index].classList.remove('tetromino')
+        })
+    }
+
+    draw()
+
+    timerId = setInterval(moveDown,1000)
+
+    function moveDown(){
+        undraw()
+        currentPosition += width
+        draw()
+    }
 
 
 
-
-    console.log(squares)
 
 })
