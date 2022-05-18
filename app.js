@@ -46,7 +46,7 @@ document.addEventListener('DOMContentLoaded', () => {
     let currentRotation = 0
 
     let random = Math.floor(Math.random()*theTetrominoes.length)
-    let current = theTetrominoes[4][0]
+    let current = theTetrominoes[random][0]
 
     function draw(){
         current.forEach(index => {
@@ -62,15 +62,62 @@ document.addEventListener('DOMContentLoaded', () => {
 
     draw()
 
-    timerId = setInterval(moveDown,1000)
+    timerId = setInterval(moveDown,500)
+
+    function control(e){
+        if(e.keyCode === 37){
+            moveLeft()
+        }else if(e.keyCode === 38){
+
+        }else if(e.keyCode === 39){
+            moveRight()
+
+        }else if(e.keyCode === 40){
+            moveDown()
+        }
+    }
+    document.addEventListener('keyup', control)
 
     function moveDown(){
         undraw()
         currentPosition += width
         draw()
+        freeze()
     }
 
+    function freeze(){
+        if(current.some(index => squares[currentPosition + index + width].
+            classList.contains('taken'))) {
+            current.forEach(index => squares[currentPosition + index].classList.add('taken'))
+            random = Math.floor(Math.random() * theTetrominoes.length)
+            current = theTetrominoes[random][currentRotation]
+            currentPosition = 4
+            draw()
+        }
+    }
 
+    // avoid invalid positioning:
+    function moveLeft() {
+        undraw()
+        const isAtLeftEdge = current.some(index => (currentPosition + index) % width === 0)
 
+        if(!isAtLeftEdge) currentPosition -=1
+
+        if(current.some(index => squares[currentPosition + index].classList.contains('taken'))){
+            currentPosition +=1
+    }
+        draw()
+}
+    function moveRight(){
+        undraw()
+        const isAtRightEdge = current.some(index => (currentPosition + index) % width === width -1)
+
+        if(!isAtRightEdge) currentPosition +=1
+
+        if(current.some(index => squares[currentPosition + index].classList.contains('taken'))){
+            currentPosition -=1
+        }
+        draw()
+    }
 
 })
